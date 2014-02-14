@@ -88,7 +88,7 @@ public class MainActivity extends ActionBarActivity {
 
                 case 0: return VarsFragment.newInstance("Variables Fragment");
                 case 1: return FunctionsFragment.newInstance("Functions Fragment");
-                case 2: return SSHFragment.newInstance("SSH");
+                case 2: return SSHFragment.newInstance("SSH Fragment");
                 case 3: return WidgetsFragment.newInstance("Widgets");
                 default: return WidgetsFragment.newInstance("Widgets");
             }

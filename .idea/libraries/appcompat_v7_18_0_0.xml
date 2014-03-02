@@ -1,8 +1,8 @@
 <component name="libraryTable">
-  <library name="ComAndroidSupportAppcompatV71800.aar">
+  <library name="appcompat-v7-18.0.0">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Telemetry/build/exploded-bundles/ComAndroidSupportAppcompatV71800.aar/classes.jar!/" />
       <root url="file://$PROJECT_DIR$/Telemetry/build/exploded-bundles/ComAndroidSupportAppcompatV71800.aar/res" />
+      <root url="jar://$PROJECT_DIR$/Telemetry/build/exploded-bundles/ComAndroidSupportAppcompatV71800.aar/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

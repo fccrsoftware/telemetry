@@ -1,6 +1,7 @@
 package edu.ucsd.fccr.telemetry;
 
-import java.util.Locale;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
@@ -8,11 +9,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+
+import net.schmizz.sshj.SSHClient;
+import net.schmizz.sshj.common.IOUtils;
+import net.schmizz.sshj.connection.channel.direct.Session;
+import net.schmizz.sshj.connection.channel.direct.Session.Command;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -32,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     ViewPager mViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -47,6 +50,30 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
 
+//        sshTest("localhost");
+
+    }
+
+    public static void sshTest(String args)
+            throws IOException {
+        final SSHClient ssh = new SSHClient();
+        ssh.loadKnownHosts();
+
+        ssh.connect(args);
+        try {
+            ssh.authPublickey(System.getProperty("user.name"));
+            final Session session = ssh.startSession();
+            try {
+                final Command cmd = session.exec("ping -c 1 google.com");
+                System.out.println(IOUtils.readFully(cmd.getInputStream()).toString());
+                cmd.join(5, TimeUnit.SECONDS);
+                System.out.println("\n** exit status: " + cmd.getExitStatus());
+            } finally {
+                session.close();
+            }
+        } finally {
+            ssh.disconnect();
+        }
     }
 
 

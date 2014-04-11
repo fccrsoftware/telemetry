@@ -2,12 +2,16 @@ package edu.ucsd.fccr.telemetry;
 
 import java.util.Locale;
 
+import android.content.Context;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -47,8 +51,43 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
 
+        //Setup the wifi network
+        this.saveWepConfig();
+
+
     }
 
+    void saveWepConfig()
+    {
+        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        WifiConfiguration wc = new WifiConfiguration();
+        wc.SSID = "\"beaglebase\""; //IMP! This should be in Quotes!!
+        wc.hiddenSSID = true;
+        wc.status = WifiConfiguration.Status.DISABLED;
+        wc.priority = 40;
+        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+
+        wc.wepKeys[0] = "\"beaglebone\""; //This is the WEP Password
+        wc.wepTxKeyIndex = 0;
+
+        WifiManager  wifiManag = (WifiManager) this.getSystemService(WIFI_SERVICE);
+        boolean res1 = wifiManag.setWifiEnabled(true);
+        int res = wifi.addNetwork(wc);
+        Log.d("WifiPreference", "add Network returned " + res);
+        boolean es = wifi.saveConfiguration();
+        Log.d("WifiPreference", "saveConfiguration returned " + es );
+        boolean b = wifi.enableNetwork(res, true);
+        Log.d("WifiPreference", "enableNetwork returned " + b );
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

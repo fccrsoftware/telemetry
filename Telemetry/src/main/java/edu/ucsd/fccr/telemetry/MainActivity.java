@@ -1,10 +1,13 @@
 package edu.ucsd.fccr.telemetry;
 
+import java.lang.reflect.Method;
 import java.util.Locale;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -17,17 +20,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity
+{
+    private String TAG = "MainActivity";
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    boolean wasAPEnabled = false;
+    static WifiAP wifiAp;
+    private WifiManager wifi;
+    static Button btnWifiToggle;
+
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
@@ -51,42 +56,21 @@ public class MainActivity extends ActionBarActivity {
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
 
-        //Setup the wifi network
-        this.saveWepConfig();
+//        btnWifiToggle = (Button) findViewById(R.id.btnWifiToggle);
+
+        wifiAp = new WifiAP();
+        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+//        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+                wifiAp.toggleWiFiAP(wifi, MainActivity.this);
+                Toast.makeText(getBaseContext(), "Wifi Toggled", Toast.LENGTH_LONG);
+//            }
+//        });
 
 
-    }
 
-    void saveWepConfig()
-    {
-        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        WifiConfiguration wc = new WifiConfiguration();
-        wc.SSID = "\"beaglebase\""; //IMP! This should be in Quotes!!
-        wc.hiddenSSID = true;
-        wc.status = WifiConfiguration.Status.DISABLED;
-        wc.priority = 40;
-        wc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-        wc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-        wc.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
-        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-        wc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
-        wc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
-
-        wc.wepKeys[0] = "\"beaglebone\""; //This is the WEP Password
-        wc.wepTxKeyIndex = 0;
-
-        WifiManager  wifiManag = (WifiManager) this.getSystemService(WIFI_SERVICE);
-        boolean res1 = wifiManag.setWifiEnabled(true);
-        int res = wifi.addNetwork(wc);
-        Log.d("WifiPreference", "add Network returned " + res);
-        boolean es = wifi.saveConfiguration();
-        Log.d("WifiPreference", "saveConfiguration returned " + es );
-        boolean b = wifi.enableNetwork(res, true);
-        Log.d("WifiPreference", "enableNetwork returned " + b );
-
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 
     @Override
@@ -108,8 +92,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -138,4 +120,40 @@ public class MainActivity extends ActionBarActivity {
             return 4;
         }
     }
+
+    //Wifi Methods
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (wasAPEnabled) {
+            if (wifiAp.getWifiAPState()!=wifiAp.WIFI_AP_STATE_ENABLED && wifiAp.getWifiAPState()!=wifiAp.WIFI_AP_STATE_ENABLING){
+                wifiAp.toggleWiFiAP(wifi, MainActivity.this);
+            }
+        }
+//        updateStatusDisplay();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        boolean wifiApIsOn = wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING;
+        if (wifiApIsOn) {
+            wasAPEnabled = true;
+            wifiAp.toggleWiFiAP(wifi, MainActivity.this);
+        } else {
+            wasAPEnabled = false;
+        }
+//        updateStatusDisplay();
+    }
+
+    public static void updateStatusDisplay() {
+        if (wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING) {
+            btnWifiToggle.setText("Turn off");
+            //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_on);
+        } else {
+            btnWifiToggle.setText("Turn on");
+            //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
+        }
+    }
+
 }

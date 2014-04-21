@@ -11,10 +11,9 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 public class Server implements Runnable {
-//192.168.43.217
-//14551
-    public static final String SERVERIP = "127.0.0.1"; // 'Within' the emulator!
-    public static final int SERVERPORT = 4444;
+
+    public static final String SERVERIP = "192.168.43.217"; // 'Within' the emulator!
+    public static final int SERVERPORT = 14551;
 
     @Override
     public void run() {

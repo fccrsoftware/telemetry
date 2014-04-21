@@ -1,7 +1,10 @@
 package edu.ucsd.fccr.telemetry;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -22,6 +25,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity
@@ -39,6 +44,16 @@ public class MainActivity extends ActionBarActivity
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
+    /*
+    //initialize arrays to test the variable listview
+    ListView vars_listview;
+    public String[] nameArray = {"x1","x2","x3","x4"};
+    public double[] valueArray = {1,2,3,4};
+    public ArrayList<String> valueStringArray = new ArrayList<String>();
+    public int index = 1;
+    */
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,17 +78,17 @@ public class MainActivity extends ActionBarActivity
 
 //        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View v) {
-                wifiAp.toggleWiFiAP(wifi, MainActivity.this);
-                Toast.makeText(getBaseContext(), "Wifi Toggled", Toast.LENGTH_LONG);
+        wifiAp.toggleWiFiAP(wifi, MainActivity.this);
+        Toast.makeText(getBaseContext(), "Wifi Toggled", Toast.LENGTH_LONG);
 //            }
 //        });
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;

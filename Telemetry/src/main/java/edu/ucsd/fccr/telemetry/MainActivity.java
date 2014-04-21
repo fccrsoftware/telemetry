@@ -68,19 +68,6 @@ public class MainActivity extends ActionBarActivity
 //            }
 //        });
 
-        /* Kickoff the Server, it will
-         * be 'listening' for one client packet */
-        new Thread(new Server()).start();
-        /* GIve the Server some time for startup */
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) { }
-
-        // Kickoff the Client
-        new Thread(new Client()).start();
-    }
-
-
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD|WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
 
@@ -165,6 +152,22 @@ public class MainActivity extends ActionBarActivity
             btnWifiToggle.setText("Turn on");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
         }
+    }
+
+    public static void setupUDP() {
+        /* Kickoff the Server, it will
+         * be 'listening' for one client packet */
+        new Thread(new Server()).start();
+        /* GIve the Server some time for startup */
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            Log.e("Main", "S: Error", e);
+        }
+
+        // Kickoff the Client
+        new Thread(new Client()).start();
+
     }
 
 }

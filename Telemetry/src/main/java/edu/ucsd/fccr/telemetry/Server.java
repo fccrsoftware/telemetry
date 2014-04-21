@@ -12,7 +12,7 @@ import java.net.InetAddress;
 
 public class Server implements Runnable {
 
-    public static final String SERVERIP = "192.168.43.217"; // 'Within' the emulator!
+    public static final String SERVERIP = "192.168.43.217";
     public static final int SERVERPORT = 14551;
 
     @Override

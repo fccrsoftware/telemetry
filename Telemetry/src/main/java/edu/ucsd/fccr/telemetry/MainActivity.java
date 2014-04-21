@@ -45,15 +45,6 @@ public class MainActivity extends ActionBarActivity
      */
     ViewPager mViewPager;
 
-    /*
-    //initialize arrays to test the variable listview
-    ListView vars_listview;
-    public String[] nameArray = {"x1","x2","x3","x4"};
-    public double[] valueArray = {1,2,3,4};
-    public ArrayList<String> valueStringArray = new ArrayList<String>();
-    public int index = 1;
-    */
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

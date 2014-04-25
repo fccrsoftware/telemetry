@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class VarsFragment extends Fragment {
@@ -14,6 +15,12 @@ public class VarsFragment extends Fragment {
 
         TextView tv = (TextView) v.findViewById(R.id.section_label);
         tv.setText(getArguments().getString("msg"));
+
+        TextView T = (TextView) v.findViewById(R.id.T);
+        T.setText("hello");
+
+        ListView L1 = (ListView) v.findViewById(R.id.VarsListView);
+        L1.setAdapter(new VarsListAdapter(getActivity()));
 
         return v;
     }

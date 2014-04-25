@@ -36,7 +36,6 @@ public class MainActivity extends ActionBarActivity
     boolean wasAPEnabled = false;
     static WifiAP wifiAp;
     private WifiManager wifi;
-    static Button btnWifiToggle;
 
     SectionsPagerAdapter mSectionsPagerAdapter;
 
@@ -61,10 +60,6 @@ public class MainActivity extends ActionBarActivity
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
-
-//        wifiAp = new WifiAP();
-//        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-//        wifiAp.toggleWiFiAP(wifi, MainActivity.this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
@@ -138,6 +133,12 @@ public class MainActivity extends ActionBarActivity
             //btnWifiToggle.setText("Turn on");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
         }
+    }
+
+    public void setupWifi() {
+        wifiAp = new WifiAP();
+        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        wifiAp.toggleWiFiAP(wifi, MainActivity.this);
     }
 
     public static void setupUDP() {

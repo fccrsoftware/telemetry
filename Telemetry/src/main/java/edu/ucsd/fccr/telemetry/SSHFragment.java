@@ -11,9 +11,11 @@ import android.widget.TextView;
 import android.content.Context;
 import android.view.WindowManager;
 
-import edu.ucsd.fccr.telemetry.WifiAP;
+import edu.ucsd.fccr.telemetry.MainActivity;
 
 public  class SSHFragment extends Fragment {
+
+    static Button btnWifiToggle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,7 +24,22 @@ public  class SSHFragment extends Fragment {
         TextView tv = (TextView) v.findViewById(R.id.section_label);
         tv.setText(getArguments().getString("msg"));
 
+        btnWifiToggle = (Button) v.findViewById(R.id.btnWifiToggle);
+
         return v;
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity activity = (MainActivity) getActivity();
+                activity.setupWifi();
+            }
+        });
     }
 
     public static SSHFragment newInstance(String text) {

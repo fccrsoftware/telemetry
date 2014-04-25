@@ -71,17 +71,9 @@ public class MainActivity extends ActionBarActivity
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
 
-//        btnWifiToggle = (Button) findViewById(R.id.btnWifiToggle);
-
         wifiAp = new WifiAP();
         wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-//        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
         wifiAp.toggleWiFiAP(wifi, MainActivity.this);
-        Toast.makeText(getBaseContext(), "Wifi Toggled", Toast.LENGTH_LONG);
-//            }
-//        });
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
@@ -138,33 +130,21 @@ public class MainActivity extends ActionBarActivity
     @Override
     public void onResume() {
         super.onResume();
-        if (wasAPEnabled) {
-            if (wifiAp.getWifiAPState()!=wifiAp.WIFI_AP_STATE_ENABLED && wifiAp.getWifiAPState()!=wifiAp.WIFI_AP_STATE_ENABLING){
-                wifiAp.toggleWiFiAP(wifi, MainActivity.this);
-            }
-        }
-//        updateStatusDisplay();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        boolean wifiApIsOn = wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING;
-        if (wifiApIsOn) {
-            wasAPEnabled = true;
-            wifiAp.toggleWiFiAP(wifi, MainActivity.this);
-        } else {
-            wasAPEnabled = false;
-        }
-//        updateStatusDisplay();
     }
 
     public static void updateStatusDisplay() {
-        if (wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING) {
-            btnWifiToggle.setText("Turn off");
+        boolean wifiApIsOn = false;
+        if (!wifiAp.equals(null)) wifiApIsOn = wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLED || wifiAp.getWifiAPState()==wifiAp.WIFI_AP_STATE_ENABLING;
+        if (wifiApIsOn) {
+            //btnWifiToggle.setText("Turn off");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_on);
         } else {
-            btnWifiToggle.setText("Turn on");
+            //btnWifiToggle.setText("Turn on");
             //findViewById(R.id.bg).setBackgroundResource(R.drawable.bg_wifi_off);
         }
     }

@@ -41,7 +41,8 @@ public class WifiAP extends Activity {
             wifi = wifihandler;
         }
 
-        boolean wifiApIsOn = getWifiAPState()==WIFI_AP_STATE_ENABLED || getWifiAPState()==WIFI_AP_STATE_ENABLING;
+//        boolean wifiApIsOn = getWifiAPState()==WIFI_AP_STATE_ENABLED || getWifiAPState()==WIFI_AP_STATE_ENABLING;
+        boolean wifiApIsOn = false;
         new SetWifiAPTask(!wifiApIsOn,false,context).execute();
     }
 
@@ -194,6 +195,7 @@ public class WifiAP extends Activity {
             try {
                 d.dismiss();
                 MainActivity.setupUDP();
+                MainActivity.updateStatusDisplay();
             } catch (IllegalArgumentException e) {
 
             };

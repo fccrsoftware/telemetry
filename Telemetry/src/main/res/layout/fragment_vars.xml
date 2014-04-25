@@ -9,9 +9,24 @@
     android:background="@android:color/holo_orange_dark"
     tools:context=".MainActivity$VarsFragment">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/section_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/T"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="..."/>
+        <ListView
+            android:id="@+id/VarsListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 
 </RelativeLayout>

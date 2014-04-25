@@ -11,21 +11,21 @@ import android.widget.TextView;
 /**
  * Created by alex on 4/24/14.
  */
-public class VarsListAdapter extends BaseAdapter {
+public class FunctionsListAdapter extends BaseAdapter {
 
-    public String[] name = {"Variables", "Altitude", "Speed", "Direction", "Battery"};
-    public String[] value = {"", "402.8 ft", "5 mph", "103 degrees", "83%"};
-    public boolean[] editable = {false, false, false, false, false};
+    public String[] name = {"Functions", "Set Altitude", "Set Speed", "Set Direction", "Check Battery"};
+    public String[] value = {"", "Parameters: altitude(ft)", "Parameters: speed(mph)", "Parameters: direction(degrees)", "Parameters: none"};
+    public boolean[] editable = {false, true, true, true, false};
     String[] Title, Detail;
     boolean[] Editable;
     LayoutInflater inflater;
     Context context;
 
-    VarsListAdapter() {
+    FunctionsListAdapter() {
         Title = null;
         Detail = null;
     }
-    public VarsListAdapter(Context context) {
+    public FunctionsListAdapter(Context context) {
         Title = name;
         Detail = value;
         Editable = editable;

@@ -62,9 +62,9 @@ public class MainActivity extends ActionBarActivity
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
 
-        wifiAp = new WifiAP();
-        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        wifiAp.toggleWiFiAP(wifi, MainActivity.this);
+//        wifiAp = new WifiAP();
+//        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+//        wifiAp.toggleWiFiAP(wifi, MainActivity.this);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }

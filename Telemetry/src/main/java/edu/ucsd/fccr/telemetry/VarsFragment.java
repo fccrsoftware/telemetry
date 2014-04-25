@@ -1,28 +1,23 @@
 package edu.ucsd.fccr.telemetry;
 
+import android.support.v4.app.ListFragment;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class VarsFragment extends Fragment {
+public class VarsFragment extends ListFragment {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_vars, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_vars, container,
+                false);
 
-        TextView tv = (TextView) v.findViewById(R.id.section_label);
-        tv.setText(getArguments().getString("msg"));
-
-        TextView T = (TextView) v.findViewById(R.id.T);
-        T.setText("hello");
-
-        ListView L1 = (ListView) v.findViewById(R.id.VarsListView);
-        L1.setAdapter(new VarsListAdapter(getActivity()));
-
-        return v;
+        setListAdapter(new VarsListAdapter(rootView.getContext()));
+        return rootView;
     }
 
     public static VarsFragment newInstance(String text) {

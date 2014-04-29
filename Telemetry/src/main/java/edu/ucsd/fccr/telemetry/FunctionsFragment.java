@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 public class FunctionsFragment extends ListFragment {
     @Override
@@ -14,7 +13,10 @@ public class FunctionsFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.fragment_functions, container,
                 false);
 
-        setListAdapter(new FunctionsListAdapter(rootView.getContext()));
+        String[] NNN = ((MyApp) getActivity().getApplication()).getFunNames();
+        String[] MMM = ((MyApp) getActivity().getApplication()).getFunDesc();
+        boolean[] EEE = ((MyApp) getActivity().getApplication()).getFunEdito();
+        setListAdapter(new TwoLineListAdapter(rootView.getContext(), NNN, MMM, EEE));
         return rootView;
     }
 

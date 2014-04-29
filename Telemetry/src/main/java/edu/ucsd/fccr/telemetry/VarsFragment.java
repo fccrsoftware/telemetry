@@ -5,18 +5,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.TextView;
 
 public class VarsFragment extends ListFragment {
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_vars, container,
-                false);
+        View rootView = inflater.inflate(R.layout.fragment_vars, container, false);
 
-        setListAdapter(new VarsListAdapter(rootView.getContext()));
+
+        String[] NNN = ((MyApp) getActivity().getApplication()).getVarNames();
+        String[] MMM = ((MyApp) getActivity().getApplication()).getVarDesc();
+        boolean[] EEE = ((MyApp) getActivity().getApplication()).getVarEdito();
+        setListAdapter(new TwoLineListAdapter(rootView.getContext(), NNN, MMM, EEE));
         return rootView;
     }
 

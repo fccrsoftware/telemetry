@@ -13,10 +13,10 @@ public class FunctionsFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.fragment_functions, container,
                 false);
 
-        String[] NNN = ((MyApp) getActivity().getApplication()).getFunNames();
-        String[] MMM = ((MyApp) getActivity().getApplication()).getFunDesc();
-        boolean[] EEE = ((MyApp) getActivity().getApplication()).getFunEdito();
-        setListAdapter(new TwoLineListAdapter(rootView.getContext(), NNN, MMM, EEE));
+        String[] Names = ((TelemetryApp) getActivity().getApplication()).getFunNames();
+        String[] Values = ((TelemetryApp) getActivity().getApplication()).getFunValues();
+        boolean[] Editables = ((TelemetryApp) getActivity().getApplication()).getFunEditables();
+        setListAdapter(new TwoLineListAdapter(rootView.getContext(), Names, Values, Editables));
         return rootView;
     }
 

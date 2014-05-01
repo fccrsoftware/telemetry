@@ -15,10 +15,10 @@ public class VarsFragment extends ListFragment {
         View rootView = inflater.inflate(R.layout.fragment_vars, container, false);
 
 
-        String[] NNN = ((MyApp) getActivity().getApplication()).getVarNames();
-        String[] MMM = ((MyApp) getActivity().getApplication()).getVarDesc();
-        boolean[] EEE = ((MyApp) getActivity().getApplication()).getVarEdito();
-        setListAdapter(new TwoLineListAdapter(rootView.getContext(), NNN, MMM, EEE));
+        String[] Names = ((TelemetryApp) getActivity().getApplication()).getVarNames();
+        String[] Values = ((TelemetryApp) getActivity().getApplication()).getVarValues();
+        boolean[] Editables = ((TelemetryApp) getActivity().getApplication()).getVarEditables();
+        setListAdapter(new TwoLineListAdapter(rootView.getContext(), Names, Values, Editables));
         return rootView;
     }
 

@@ -193,7 +193,6 @@ public class WifiAP extends Activity {
             super.onPostExecute(aVoid);
             try {
                 d.dismiss();
-                MainActivity.setupUDP();
                 MainActivity.updateStatusDisplay();
             } catch (IllegalArgumentException e) {
 

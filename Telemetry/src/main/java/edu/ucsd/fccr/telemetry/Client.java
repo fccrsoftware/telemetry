@@ -22,7 +22,7 @@ public class Client implements Runnable {
                         /* Create new UDP-Socket */
             DatagramSocket socket = new DatagramSocket();
 
-                        /* Prepare some data to be sent. */
+                        /* Prepare Mavlink packet to be sent. */
             byte[] buf = ("Hello from Client").getBytes();
 
                         /* Create UDP-packet with

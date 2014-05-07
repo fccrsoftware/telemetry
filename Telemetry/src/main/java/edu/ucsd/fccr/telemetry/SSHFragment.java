@@ -1,6 +1,5 @@
 package edu.ucsd.fccr.telemetry;
 
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.content.Context;
-import android.view.WindowManager;
-
-import edu.ucsd.fccr.telemetry.MainActivity;
 
 public  class SSHFragment extends Fragment {
 
@@ -23,7 +18,7 @@ public  class SSHFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_ssh, container, false);
 
         TextView tv = (TextView) v.findViewById(R.id.section_label);
-        tv.setText(getArguments().getString("msg"));
+        tv.setText(getArguments().getString("com/MAVLink/Messages/msg"));
 
         btnWifiToggle = (Button) v.findViewById(R.id.btnWifiToggle);
         btnUDPToggle = (Button) v.findViewById(R.id.btnUDPToggle);
@@ -56,7 +51,7 @@ public  class SSHFragment extends Fragment {
 
         SSHFragment f = new SSHFragment();
         Bundle b = new Bundle();
-        b.putString("msg", text);
+        b.putString("com/MAVLink/Messages/msg", text);
 
         f.setArguments(b);
 

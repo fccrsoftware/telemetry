@@ -24,7 +24,7 @@ public class FunctionsFragment extends ListFragment {
 
         FunctionsFragment f = new FunctionsFragment();
         Bundle b = new Bundle();
-        b.putString("msg", text);
+        b.putString("com/MAVLink/Messages/msg", text);
 
         f.setArguments(b);
 

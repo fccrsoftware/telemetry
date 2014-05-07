@@ -26,7 +26,7 @@ public class VarsFragment extends ListFragment {
 
         VarsFragment f = new VarsFragment();
         Bundle b = new Bundle();
-        b.putString("msg", text);
+        b.putString("com/MAVLink/Messages/msg", text);
 
         f.setArguments(b);
 

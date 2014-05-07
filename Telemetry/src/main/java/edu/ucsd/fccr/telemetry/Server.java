@@ -10,7 +10,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import edu.ucsd.fccr.telemetry.Parser;
+import com.MAVLink.Parser;
 
 public class Server implements Runnable {
 

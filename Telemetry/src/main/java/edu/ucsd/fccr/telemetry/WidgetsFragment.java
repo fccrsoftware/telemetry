@@ -13,7 +13,7 @@ public class WidgetsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_widgets, container, false);
 
         TextView tv = (TextView) v.findViewById(R.id.section_label);
-        tv.setText(getArguments().getString("msg"));
+        tv.setText(getArguments().getString("com/MAVLink/Messages/msg"));
 
         return v;
     }
@@ -22,7 +22,7 @@ public class WidgetsFragment extends Fragment {
 
         WidgetsFragment f = new WidgetsFragment();
         Bundle b = new Bundle();
-        b.putString("msg", text);
+        b.putString("com/MAVLink/Messages/msg", text);
 
         f.setArguments(b);
 

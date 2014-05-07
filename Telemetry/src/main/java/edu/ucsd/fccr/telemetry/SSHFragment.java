@@ -16,6 +16,7 @@ import edu.ucsd.fccr.telemetry.MainActivity;
 public  class SSHFragment extends Fragment {
 
     static Button btnWifiToggle;
+    static Button btnUDPToggle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public  class SSHFragment extends Fragment {
         tv.setText(getArguments().getString("msg"));
 
         btnWifiToggle = (Button) v.findViewById(R.id.btnWifiToggle);
+        btnUDPToggle = (Button) v.findViewById(R.id.btnUDPToggle);
 
         return v;
     }
@@ -38,6 +40,14 @@ public  class SSHFragment extends Fragment {
             public void onClick(View v) {
                 MainActivity activity = (MainActivity) getActivity();
                 activity.setupWifi();
+            }
+        });
+
+        btnUDPToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity activity = (MainActivity) getActivity();
+                activity.setupUDP();
             }
         });
     }

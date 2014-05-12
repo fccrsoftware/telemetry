@@ -1,5 +1,6 @@
 package edu.ucsd.fccr.telemetry;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,12 +9,28 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class WidgetsFragment extends Fragment {
+
+    // for joystick
+    TextView txtX, txtY;
+    JoystickView joystick;
+    //
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_widgets, container, false);
 
         TextView tv = (TextView) v.findViewById(R.id.section_label);
         tv.setText(getArguments().getString("com/MAVLink/Messages/msg"));
+
+        // for joystick
+        txtX = (TextView) v.findViewById(R.id.TextViewX);
+        txtY = (TextView) v.findViewById(R.id.TextViewY);
+        joystick = (JoystickView) v.findViewById(R.id.joystickView);
+        joystick.setOnJostickMovedListener(_listener);
+        //
+
+
 
         return v;
     }
@@ -28,4 +45,25 @@ public class WidgetsFragment extends Fragment {
 
         return f;
     }
+
+
+    // Joystick listeners (for joystick)
+    private JoystickMovedListener _listener = new JoystickMovedListener() {
+        @Override
+        public void OnMoved(int pan, int tilt) {
+            // returns ints 0-1000
+            txtX.setText(Integer.toString(pan));
+            txtY.setText(Integer.toString(tilt));
+        }
+        @Override
+        public void OnReleased() {
+            txtX.setText("released");
+            txtY.setText("released");
+        }
+        public void OnReturnedToCenter() {
+            txtX.setText("stopped");
+            txtY.setText("stopped");
+        }
+    };
+    //
 }

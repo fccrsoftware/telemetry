@@ -55,6 +55,28 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="R"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:text=""
+                    android:id="@+id/TextViewR"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:text="Theta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:text=""
+                    android:id="@+id/TextViewTheta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </TableRow>
         </TableLayout>
     </LinearLayout>
     <!--                -->

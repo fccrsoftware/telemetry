@@ -139,6 +139,7 @@ public class JoystickView extends View {
         setClickThreshold(0.4f);
         setYAxisInverted(true);
         setUserCoordinateSystem(COORDINATE_CARTESIAN);
+        setMovementConstraint(CONSTRAIN_CIRCLE);
         setAutoReturnToCenter(true);
     }
 

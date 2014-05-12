@@ -9,10 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class WidgetsFragment extends Fragment {
 
     // for joystick
-    TextView txtX, txtY;
+    TextView txtX, txtY, txtR, txtTheta;
     JoystickView joystick;
     //
 
@@ -27,6 +29,8 @@ public class WidgetsFragment extends Fragment {
         // for joystick
         txtX = (TextView) v.findViewById(R.id.TextViewX);
         txtY = (TextView) v.findViewById(R.id.TextViewY);
+        txtR = (TextView) v.findViewById(R.id.TextViewR);
+        txtTheta = (TextView) v.findViewById(R.id.TextViewTheta);
         joystick = (JoystickView) v.findViewById(R.id.joystickView);
         joystick.setOnJostickMovedListener(_listener);
         //
@@ -52,22 +56,37 @@ public class WidgetsFragment extends Fragment {
     private JoystickMovedListener _listener = new JoystickMovedListener() {
         @Override
         public void OnMoved(int pan, int tilt) {
-            // returns ints 0-1000
-            ((TelemetryApp) getActivity().getApplication()).setJSx(pan);
-            ((TelemetryApp) getActivity().getApplication()).setJSy(tilt);
-            int X = ((TelemetryApp) getActivity().getApplication()).getJSx();
-            int Y = ((TelemetryApp) getActivity().getApplication()).getJSy();
-            txtX.setText(Integer.toString(X));
-            txtY.setText(Integer.toString(Y));
+
+            // Note: - get/set functions take doubles
+            //       - pan and tilt are mapped (pan,tilt)[0,1000] --> (x,y)[0,1]
+            //       - r returned [0,1]
+            //       - theta returned [-pi,pi]
+
+            ((TelemetryApp) getActivity().getApplication()).setJSx((double)pan);
+            ((TelemetryApp) getActivity().getApplication()).setJSy((double)tilt);
+            double X = ((TelemetryApp) getActivity().getApplication()).getJSx();
+            double Y = ((TelemetryApp) getActivity().getApplication()).getJSy();
+            double R = ((TelemetryApp) getActivity().getApplication()).getJSr();
+            double Theta = ((TelemetryApp) getActivity().getApplication()).getJStheta();
+
+            DecimalFormat dec = new DecimalFormat("#.###");
+            txtX.setText(dec.format(X));
+            txtY.setText(dec.format(Y));
+            txtR.setText(dec.format(R));
+            txtTheta.setText(dec.format(Theta));
         }
         @Override
         public void OnReleased() {
             txtX.setText("released");
             txtY.setText("released");
+            txtR.setText("released");
+            txtTheta.setText("released");
         }
         public void OnReturnedToCenter() {
             txtX.setText("stopped");
             txtY.setText("stopped");
+            txtR.setText("stopped");
+            txtTheta.setText("stopped");
         }
     };
     //

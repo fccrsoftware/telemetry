@@ -1,5 +1,6 @@
 package edu.ucsd.fccr.telemetry;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -52,8 +53,12 @@ public class WidgetsFragment extends Fragment {
         @Override
         public void OnMoved(int pan, int tilt) {
             // returns ints 0-1000
-            txtX.setText(Integer.toString(pan));
-            txtY.setText(Integer.toString(tilt));
+            ((TelemetryApp) getActivity().getApplication()).setJSx(pan);
+            ((TelemetryApp) getActivity().getApplication()).setJSy(tilt);
+            int X = ((TelemetryApp) getActivity().getApplication()).getJSx();
+            int Y = ((TelemetryApp) getActivity().getApplication()).getJSy();
+            txtX.setText(Integer.toString(X));
+            txtY.setText(Integer.toString(Y));
         }
         @Override
         public void OnReleased() {

@@ -22,6 +22,23 @@ public class TelemetryApp extends Application {
     public String[] FunValues = {"", "Parameters: altitude(ft)", "Parameters: speed(mph)", "Parameters: direction(degrees)", "Parameters: none"};
     public boolean[] FunEditables = {false, true, true, true, false};
 
+    // Joystick Parameters
+    public int JSx;
+    public int JSy;
+
+
+
+
+
+    // Setters
+    public void setJSx(int value) {
+        JSx = value;
+    }
+    public void setJSy(int value) {
+        JSy = value;
+    }
+
+    // Getters
     public String[] getVarNames() {
         return VarNames;
     }
@@ -39,5 +56,11 @@ public class TelemetryApp extends Application {
     }
     public boolean[] getFunEditables() {
         return FunEditables;
+    }
+    public int getJSx() {
+        return JSx;
+    }
+    public int getJSy() {
+        return JSy;
     }
 }

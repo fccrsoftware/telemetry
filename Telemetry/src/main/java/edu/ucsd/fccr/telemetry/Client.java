@@ -27,7 +27,7 @@ public class Client implements Runnable {
 
                         /* Create UDP-packet with
                          * data & destination(url+port) */
-            DatagramPacket packet = new DatagramPacket(buf, buf.length,     serverAddr, Server.SERVERPORT);
+            DatagramPacket packet = new DatagramPacket(buf, buf.length, serverAddr, Server.SERVERPORT);
             Log.d("UDP", "C: Sending: '" + new String(buf) + "'");
 
                         /* Send out the packet */

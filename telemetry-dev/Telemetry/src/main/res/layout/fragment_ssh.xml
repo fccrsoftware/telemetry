@@ -1,0 +1,36 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity$SSHFragment"
+    android:padding="10dp"
+    android:orientation="vertical"
+    android:background="#8AD5F0">
+
+    <TextView
+        android:layout_width="@dimen/fragment_list_width"
+        android:layout_height="wrap_content"
+        android:text="Log"
+        android:id="@+id/textView"
+        android:background="#fff"
+        android:padding="5dp"
+        android:textSize="22dp" />
+
+    <EditText
+        android:layout_width="@dimen/fragment_list_width"
+        android:layout_height="wrap_content"
+        android:id="@+id/command_box"
+        android:hint="Enter Command"
+        android:inputType="text"
+        android:clickable="true"
+        android:background="#fff"
+        android:padding="5dp" />
+
+    <TextView
+        android:layout_width="@dimen/fragment_list_width"
+        android:layout_height="match_parent"
+        android:id="@+id/log_label"
+        android:background="#fff"
+        android:padding="5dp" />
+
+</LinearLayout>

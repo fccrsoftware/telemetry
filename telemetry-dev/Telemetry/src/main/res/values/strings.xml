@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Telemetry</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="action_settings">Settings</string>
+    <string name="ssid_name">beaglebase</string>
+    <string name="ssid_pass">beaglebone</string>
+    <string name="cancel">Cancel</string>
+    <string name="okay">Okay</string>
+    <string name="variable_max">Max Value</string>
+    <string name="variable_min">Min Value</string>
+    <string name="variable_name">Variable Name</string>
+
+</resources>

@@ -23,18 +23,19 @@ public class TelemetryApp extends Application {
     public boolean[] FunEditables = {false, true, true, true, false};
 
     // Joystick Parameters
-    public int JSx;
-    public int JSy;
-
+    public double JSx;
+    public double JSy;
+    public double JSr;
+    public double JStheta;
 
 
 
 
     // Setters
-    public void setJSx(int value) {
+    public void setJSx(double value) {
         JSx = value;
     }
-    public void setJSy(int value) {
+    public void setJSy(double value) {
         JSy = value;
     }
 
@@ -57,10 +58,18 @@ public class TelemetryApp extends Application {
     public boolean[] getFunEditables() {
         return FunEditables;
     }
-    public int getJSx() {
+    public double getJSx() {
         return JSx;
     }
-    public int getJSy() {
+    public double getJSy() {
         return JSy;
+    }
+    public double getJSr() {
+        JSr = Math.sqrt(Math.pow(JSx,2) + Math.pow(JSy,2));
+        return JSr;
+    }
+    public double getJStheta() {
+        JStheta = Math.atan2(JSx,JSy);
+        return JStheta;
     }
 }

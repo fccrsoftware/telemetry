@@ -33,8 +33,7 @@ public class WidgetsFragment extends Fragment {
         txtTheta = (TextView) v.findViewById(R.id.TextViewTheta);
         joystick = (JoystickView) v.findViewById(R.id.joystickView);
         joystick.setOnJostickMovedListener(_listener);
-        //
-
+        joystick.setYAxisInverted(false);
 
 
         return v;
@@ -58,8 +57,8 @@ public class WidgetsFragment extends Fragment {
         public void OnMoved(int pan, int tilt) {
 
             // Note: - get/set functions take doubles
-            //       - pan and tilt are mapped (pan,tilt)[0,1000] --> (x,y)[0,1]
-            //       - r returned [0,1]
+            //       - pan and tilt are mapped (x,y)[0,10]
+            //       - r returned [0,10]
             //       - theta returned [-pi,pi]
 
             ((TelemetryApp) getActivity().getApplication()).setJSx((double)pan);

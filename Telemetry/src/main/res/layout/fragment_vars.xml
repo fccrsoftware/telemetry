@@ -5,11 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity$VarsFragment"
-    android:gravity="center_horizontal"
-    android:background="#ffff8800">
+    android:padding="10dp"
+    android:background="#FFD980">
 
     <ListView
         android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="@dimen/fragment_list_width"
+        android:layout_height="wrap_content"
+        android:background="#fff" />
 </LinearLayout>

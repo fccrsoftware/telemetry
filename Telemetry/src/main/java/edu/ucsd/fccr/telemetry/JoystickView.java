@@ -134,8 +134,8 @@ public class JoystickView extends View {
 
         innerPadding = 10;
 
-        setMovementRange(1000); //// << lazy fix to change resolution (still ints) (was 10)
-        setMoveResolution(1.0f);
+        setMovementRange(10);
+        setMoveResolution(.01f);
         setClickThreshold(0.4f);
         setYAxisInverted(true);
         setUserCoordinateSystem(COORDINATE_CARTESIAN);

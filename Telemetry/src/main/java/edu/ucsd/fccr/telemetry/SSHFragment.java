@@ -5,23 +5,27 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public  class SSHFragment extends Fragment {
 
-    static Button btnWifiToggle;
-    static Button btnUDPToggle;
+    private TextView logTextView;
+    public static EditText commandBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_ssh, container, false);
 
-        TextView tv = (TextView) v.findViewById(R.id.section_label);
-        tv.setText(getArguments().getString("com/MAVLink/Messages/msg"));
-
-        btnWifiToggle = (Button) v.findViewById(R.id.btnWifiToggle);
-        btnUDPToggle = (Button) v.findViewById(R.id.btnUDPToggle);
+        logTextView = (TextView) v.findViewById(R.id.log_label);
+        commandBox = (EditText) v.findViewById(R.id.command_box);
 
         return v;
     }
@@ -30,21 +34,28 @@ public  class SSHFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity activity = (MainActivity) getActivity();
-                activity.setupWifi();
-            }
-        });
+        // Moved to action
+//        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                MainActivity activity = (MainActivity) getActivity();
+//                activity.setupWifi();
+//            }
+//        });
 
-        btnUDPToggle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MainActivity activity = (MainActivity) getActivity();
-                activity.setupUDP();
-            }
-        });
+        this.log("App Loaded");
+    }
+
+    public void log (String msg) {
+        String c = logTextView.getText().toString();
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+        String date = df.format(new Date());
+
+        StringBuilder s = new StringBuilder(c);
+        s.append("\n" + date +"> ");
+        s.append(msg);
+
+        logTextView.setText(s.toString());
     }
 
     public static SSHFragment newInstance(String text) {

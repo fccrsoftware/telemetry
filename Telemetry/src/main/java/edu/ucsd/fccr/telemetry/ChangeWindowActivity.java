@@ -20,8 +20,6 @@ import android.widget.Toast;
  */
 public class ChangeWindowActivity extends Activity {
 
-    TelemetryApp tApp = TelemetryApp.getInstance();
-
     TextView variableNameTextView;
     TextView variableMaxTextView;
     TextView variableMinTextView;
@@ -29,25 +27,20 @@ public class ChangeWindowActivity extends Activity {
     Button okayButton;
     Button cancelButton;
 
-    private int index;
     private String name;
     private String value;
     private String newValue;
     private String min;
     private String max;
-    private String[] Values;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_window);
 
-        Intent fromMain = getIntent();
-
-        index = tApp.getIndex();
-        name = tApp.getVarNames()[index];
-        value = tApp.getVarValues()[index];
-        min = tApp.getVarMins()[index];
-        max = tApp.getVarMaxs()[index];
+        name = getIntent().getStringExtra("name");
+        value = getIntent().getStringExtra("value");
+        min = getIntent().getStringExtra("min");
+        max = getIntent().getStringExtra("max");
         newValue = value;
 
         variableNameTextView = (TextView) findViewById(R.id.variableNameTextView);
@@ -120,11 +113,11 @@ public class ChangeWindowActivity extends Activity {
         @Override
         public void onClick(View arg0) {
             Intent returnIntent = new Intent();
-            Values = tApp.getVarValues();
-            Values[index] = newValue;
-            tApp.setVarValues(Values);
+            value = newValue;
+            returnIntent.putExtra("value", value);
             setResult(RESULT_FIRST_USER, returnIntent);
             finish();
+
         }
 
     };
@@ -134,6 +127,7 @@ public class ChangeWindowActivity extends Activity {
         @Override
         public void onClick(View v) {
             Intent returnIntent = new Intent();
+            returnIntent.putExtra("value", value);
             setResult(RESULT_FIRST_USER, returnIntent);
             finish();
 

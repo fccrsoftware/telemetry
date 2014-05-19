@@ -24,6 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="edu.ucsd.fccr.telemetry.ChangeWindowActivity"
+            android:theme="@android:style/Theme.Translucent">
+        </activity>
+
     </application>
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE">

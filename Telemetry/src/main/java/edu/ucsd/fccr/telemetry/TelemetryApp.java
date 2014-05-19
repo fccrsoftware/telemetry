@@ -11,11 +11,15 @@ package edu.ucsd.fccr.telemetry;
 import android.app.Application;
 
 public class TelemetryApp extends Application {
+    public static TelemetryApp singleton;
 
     // Vars List
-    private String[] VarNames = {"Variables", "Altitude", "Speed", "Direction", "Battery"};
-    private String[] VarValues = {"", "402.8 ft", "5 mph", "103 degrees", "83%"};
-    private boolean[] VarEditables = {false, false, false, true, false};
+    private String[] VarNames = {"Variables", "Altitude (ft)", "Speed (mph)", "Direction (Degrees)", "Battery (%)"};
+    private String[] VarValues = {"", "402.8", "5", "103", "83"};
+    private boolean[] VarEditables = {false, true, true, true, false};
+    private String[] VarMins = {"", "0","0","0","0"};
+    private String[] VarMaxs = {"", "500","10","360","100"};
+    private int index = 2;
 
     // Functions List
     public String[] FunNames = {"Functions", "Set Altitude", "Set Speed", "Set Direction", "Check Battery"};
@@ -28,8 +32,14 @@ public class TelemetryApp extends Application {
     public double JSr;
     public double JStheta;
 
+    public TelemetryApp(){}
 
-
+    public static TelemetryApp getInstance() {
+        if (singleton == null){
+            singleton = new TelemetryApp();
+        }
+        return singleton;
+    }
 
     // Setters
     public void setJSx(double value) {
@@ -37,6 +47,24 @@ public class TelemetryApp extends Application {
     }
     public void setJSy(double value) {
         JSy = value;
+    }
+    public void setVarNames(String[] newVarNames) {
+        VarNames = newVarNames;
+    }
+    public void setVarValues(String[] newVarValues) {
+        this.VarValues = newVarValues;
+    }
+    public void setVarEditables(boolean[] newVarEditables) {
+        VarEditables = newVarEditables;
+    }
+    public void setIndex(int newIndex){
+        index = newIndex;
+    }
+    public void setVarMins(String[] newVarMins) {
+        VarMins = newVarMins;
+    }
+    public void setVarMaxs(String[] newVarMaxs) {
+        VarMaxs = newVarMaxs;
     }
 
     // Getters
@@ -48,6 +76,15 @@ public class TelemetryApp extends Application {
     }
     public boolean[] getVarEditables() {
         return VarEditables;
+    }
+    public String[] getVarMins() {
+        return VarMins;
+    }
+    public String[] getVarMaxs() {
+        return VarMaxs;
+    }
+    public int getIndex(){
+        return index;
     }
     public String[] getFunNames() {
         return FunNames;
@@ -73,3 +110,4 @@ public class TelemetryApp extends Application {
         return JStheta;
     }
 }
+

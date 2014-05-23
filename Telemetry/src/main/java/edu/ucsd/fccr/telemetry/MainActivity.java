@@ -147,10 +147,13 @@ public class MainActivity extends ActionBarActivity
         wifiAp.toggleWiFiAP(wifi, MainActivity.this);
     }
 
-    public static void setupUDP() {
+    public void setupUDP() {
         /* Kickoff the Server, it will
          * be 'listening' for one client packet */
-        new Thread(new Server()).start();
+        SSHFragment sshFragment = (SSHFragment)getSupportFragmentManager().getFragments().get(0);
+        sshFragment.updateLog("Listening on port 14550");
+
+         new Thread(new Server()).start();
         /* GIve the Server some time for startup */
         try {
             Thread.sleep(500);

@@ -5,7 +5,9 @@
     tools:context=".MainActivity$SSHFragment"
     android:padding="10dp"
     android:orientation="vertical"
-    android:background="#8AD5F0">
+    android:background="#8AD5F0"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants">
 
     <TextView
         android:layout_width="@dimen/fragment_list_width"
@@ -22,7 +24,6 @@
         android:id="@+id/command_box"
         android:hint="Enter Command"
         android:inputType="text"
-        android:clickable="true"
         android:background="#fff"
         android:padding="5dp" />
 

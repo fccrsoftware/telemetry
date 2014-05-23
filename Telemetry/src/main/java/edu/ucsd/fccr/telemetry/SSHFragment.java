@@ -17,8 +17,8 @@ import java.util.Date;
 
 public  class SSHFragment extends Fragment {
 
-    private TextView logTextView;
-    public static EditText commandBox;
+    public TextView logTextView;
+    public EditText commandBox;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,7 +34,12 @@ public  class SSHFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        logTextView.setText(((TelemetryApp) getActivity().getApplication()).log("App Loaded"));
+        this.updateLog("App Loaded");
+    }
+
+    public void updateLog(String m){
+        if (m != null)
+            logTextView.setText(((TelemetryApp) getActivity().getApplication()).log(m));
     }
 
     public static SSHFragment newInstance(String text) {

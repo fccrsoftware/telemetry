@@ -1,5 +1,7 @@
 package com.MAVLink;
 
+import android.util.Log;
+
 import com.MAVLink.Messages.MAVLinkPacket;
 import com.MAVLink.Messages.MAVLinkStats;
 

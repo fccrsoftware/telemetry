@@ -34,28 +34,7 @@ public  class SSHFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        // Moved to action
-//        btnWifiToggle.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                MainActivity activity = (MainActivity) getActivity();
-//                activity.setupWifi();
-//            }
-//        });
-
-        this.log("App Loaded");
-    }
-
-    public void log (String msg) {
-        String c = logTextView.getText().toString();
-        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
-        String date = df.format(new Date());
-
-        StringBuilder s = new StringBuilder(c);
-        s.append("\n" + date +"> ");
-        s.append(msg);
-
-        logTextView.setText(s.toString());
+        logTextView.setText(((TelemetryApp) getActivity().getApplication()).log("App Loaded"));
     }
 
     public static SSHFragment newInstance(String text) {

@@ -159,7 +159,7 @@ public class MainActivity extends ActionBarActivity
         }
 
         // Kickoff the Client
-        new Thread(new Client()).start();
+//        new Thread(new Client()).start();
 
     }
 

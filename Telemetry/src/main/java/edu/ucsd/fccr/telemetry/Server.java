@@ -4,6 +4,7 @@ package edu.ucsd.fccr.telemetry;
  * Created by failingtofocus on 4/13/14.
  */
 
+import android.app.Fragment;
 import android.util.Log;
 
 import java.net.DatagramPacket;
@@ -17,8 +18,9 @@ import com.MAVLink.Parser;
 
 public class Server implements Runnable {
 
-    public static final String SERVERIP = "192.168.43.217";
-    public static final int SERVERPORT = 14551;
+    public static final String SERVERIP = "192.168.43.1";
+    public static final int SERVERPORT = 14550;
+    public DatagramSocket socket = null;
 
     @Override
     public void run() {
@@ -27,36 +29,41 @@ public class Server implements Runnable {
             InetAddress serverAddr = InetAddress.getByName(SERVERIP);
 
             Log.d("UDP", "S: Connecting...");
-                        /* Create new UDP-Socket */
-            DatagramSocket socket = new DatagramSocket(SERVERPORT, serverAddr);
+                        /* Create UDP-Socket */
+            socket = new DatagramSocket(SERVERPORT, serverAddr);
+
 
                         /* We know, how much data will be waiting for us, since
                         the min to max amount of data that can be sent via MAVLink is 8-263 bytes */
-            byte[] buf = new byte[264];
+            byte[] buf = new byte[254];
                         /* Prepare a UDP-Packet that can
                          * contain the data we want to receive */
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
             Log.d("UDP", "S: Receiving...");
-                        /* Parser Constructor*/
-            Parser parser = new Parser();
-                        /* Receive the UDP-Packet */
-            socket.receive(packet);
+            boolean run = true;
+            while (run) {
+                socket.receive(packet);
                         /* Access the data in the packet */
-            byte[] receivedData = packet.getData();
+                byte[] receivedData = packet.getData();
 
-            MAVLinkPacket mlPacket = null;
+                       /* Parser Constructor*/
+                Parser parser = new Parser();
+                        /* Receive the UDP-Packet */
+                MAVLinkPacket mlPacket = null;
 
-            for(byte currentByte : receivedData){
-                mlPacket = parser.mavlink_parse_char(currentByte);
+                for (int currentByte : receivedData) {
+                    currentByte = currentByte & 0xff; // Convert currentByte into unsigned char
+                    mlPacket = parser.mavlink_parse_char(currentByte);
+                    // Received a mavlinkpacket, get outta here
+                    if (mlPacket != null) break;
+//                Log.d("UDP", ""+currentByte);
+                }
+
+                Log.d("UDP", "S: Received - " + mlPacket.unpack() + "'");
+                if (mlPacket.unpack().msgid == 30) break;
             }
-            if(mlPacket == null){
-                Log.d("UDP", "S: Null.");
-            }
-
-            Log.d("UDP", "S: Received - " + mlPacket + "'");
-            Log.d("UDP", "S: Done.");
-
+            Log.d("UDP", "S: Done");
 
         } catch (Exception e) {
             Log.e("UDP", "S: Error", e);

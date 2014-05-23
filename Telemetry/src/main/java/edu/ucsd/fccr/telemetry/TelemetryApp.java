@@ -10,6 +10,9 @@ package edu.ucsd.fccr.telemetry;
 
 import android.app.Application;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TelemetryApp extends Application {
     public static TelemetryApp singleton;
 
@@ -31,6 +34,8 @@ public class TelemetryApp extends Application {
     public double JSy;
     public double JSr;
     public double JStheta;
+
+    public String currentLog = "";
 
     public TelemetryApp(){}
 
@@ -108,6 +113,20 @@ public class TelemetryApp extends Application {
     public double getJStheta() {
         JStheta = Math.atan2(JSx,JSy);
         return JStheta;
+    }
+
+    public String log (String msg) {
+        String c = currentLog;
+        SimpleDateFormat df = new SimpleDateFormat("hh:mm:ss");
+        String date = df.format(new Date());
+
+        StringBuilder s = new StringBuilder(date +"> ");
+        s.append(msg);
+        s.append("\n" + c);
+
+        currentLog = s.toString();
+
+        return s.toString();
     }
 }
 

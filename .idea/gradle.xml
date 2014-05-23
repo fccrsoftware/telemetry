@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="D:\Dropbox\Bewley Lab\Prototypes\Telmetry 5-18-2014 New\telemetry-dev (1)\telemetry-dev" />
-            <option value="D:\Dropbox\Bewley Lab\Prototypes\Telmetry 5-18-2014 New\telemetry-dev (1)\telemetry-dev\Telemetry" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/Telemetry" />
           </set>
         </option>
       </GradleProjectSettings>

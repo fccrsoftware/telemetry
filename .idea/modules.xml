@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Telemetry/Telemetry.iml" filepath="$PROJECT_DIR$/Telemetry/Telemetry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/telemetry.iml" filepath="$PROJECT_DIR$/telemetry.iml" />
       <module fileurl="file://$PROJECT_DIR$/telemetry-dev.iml" filepath="$PROJECT_DIR$/telemetry-dev.iml" />
     </modules>
   </component>

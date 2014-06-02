@@ -9,13 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidplot.xy.SimpleXYSeries;
+import com.androidplot.xy.XYSeries;
+import com.androidplot.xy.*;
+
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class WidgetsFragment extends Fragment {
 
     // for joystick
     TextView txtX, txtY, txtR, txtTheta;
     JoystickView joystick;
+    //
+
+    // for xy plot
+    private XYPlot bigPlot;
     //
 
 
@@ -29,6 +38,10 @@ public class WidgetsFragment extends Fragment {
         TextView tv = (TextView) v.findViewById(R.id.section_label);
         tv.setText(getArguments().getString("com/MAVLink/Messages/msg"));
 
+        telemetryApp = ((TelemetryApp) getActivity().getApplication());
+
+
+
         // for joystick
         txtX = (TextView) v.findViewById(R.id.TextViewX);
         txtY = (TextView) v.findViewById(R.id.TextViewY);
@@ -38,7 +51,42 @@ public class WidgetsFragment extends Fragment {
         joystick.setOnJostickMovedListener(_listener);
         joystick.setYAxisInverted(false);
 
-        telemetryApp = ((TelemetryApp) getActivity().getApplication());
+        // for xy plot
+        bigPlot = (XYPlot) v.findViewById(R.id.mySimpleXYPlot);
+        Number[] series1Numbers = {1,2,3,6,15,40,120};
+        Number[] series2Numbers = {5,4,3,4,1,9,7};
+        XYSeries series1 = new SimpleXYSeries(
+                Arrays.asList(series1Numbers),
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
+                "Series 1"
+        );
+        XYSeries series2 = new SimpleXYSeries(
+                Arrays.asList(series2Numbers),
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
+                "Series 2"
+        );
+
+        // format series 1, plot
+        LineAndPointFormatter series1Format = new LineAndPointFormatter();
+        series1Format.setPointLabelFormatter(new PointLabelFormatter());
+        series1Format.configure(
+                getActivity().getApplicationContext(),
+                R.layout.line_point_formatter_with_plf1
+        );
+        bigPlot.addSeries(series1,series1Format);
+
+        // format series 2, plot
+        LineAndPointFormatter series2Format = new LineAndPointFormatter();
+        series2Format.setPointLabelFormatter(new PointLabelFormatter());
+        series2Format.configure(
+                getActivity().getApplicationContext(),
+                R.layout.line_point_formatter_with_plf2
+        );
+        bigPlot.addSeries(series2, series2Format);
+        //
+
+
+
 
 
         return v;

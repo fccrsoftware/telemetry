@@ -6,4 +6,14 @@
     <dimen name="viewpager_margin_fix">32dp</dimen>
     <dimen name="fragment_list_width">300dp</dimen>
 
+
+    <!-- plot sizings -->
+    <dimen name="pie_segment_label_font_size">10dp</dimen>
+    <dimen name="title_font_size">20dp</dimen>
+    <dimen name="domain_label_font_size">13dp</dimen>
+    <dimen name="range_label_font_size">13dp</dimen>
+    <dimen name="range_tick_label_font_size">15dp</dimen>
+    <dimen name="domain_tick_label_font_size">15dp</dimen>
+    <dimen name="legend_text_font_size">20dp</dimen>
+
 </resources>

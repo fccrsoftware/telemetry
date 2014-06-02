@@ -18,6 +18,7 @@ import com.MAVLink.Parser;
 
 public class Server implements Runnable {
 
+    public static final String CLIENTIP = "192.168.43.88";
     public static final String SERVERIP = "192.168.43.1";
     public static final int SERVERPORT = 14550;
     public DatagramSocket socket = null;
@@ -32,10 +33,10 @@ public class Server implements Runnable {
                         /* Create UDP-Socket */
             socket = new DatagramSocket(SERVERPORT, serverAddr);
 
-
                         /* We know, how much data will be waiting for us, since
                         the min to max amount of data that can be sent via MAVLink is 8-263 bytes */
-            byte[] buf = new byte[254];
+            byte[] buf = new byte[263];
+
                         /* Prepare a UDP-Packet that can
                          * contain the data we want to receive */
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
@@ -44,24 +45,25 @@ public class Server implements Runnable {
             boolean run = true;
             while (run) {
                 socket.receive(packet);
+//                CLIENTIP = packet.getAddress().getHostName();
                         /* Access the data in the packet */
                 byte[] receivedData = packet.getData();
 
                        /* Parser Constructor*/
                 Parser parser = new Parser();
                         /* Receive the UDP-Packet */
-                MAVLinkPacket mlPacket = null;
+                MAVLinkPacket rxPacket = null;
 
                 for (int currentByte : receivedData) {
                     currentByte = currentByte & 0xff; // Convert currentByte into unsigned char
-                    mlPacket = parser.mavlink_parse_char(currentByte);
+                    rxPacket = parser.mavlink_parse_char(currentByte);
                     // Received a mavlinkpacket, get outta here
-                    if (mlPacket != null) break;
-//                Log.d("UDP", ""+currentByte);
+                    if (rxPacket != null) break;
+                    // Log.d("UDP", ""+currentByte);
                 }
 
-                Log.d("UDP", "S: Received - " + mlPacket.unpack() + "'");
-                if (mlPacket.unpack().msgid == 30) break;
+                Log.d("UDP", "S: Received - " + rxPacket.unpack() + " from - " + packet.getAddress());
+                if (rxPacket.unpack().msgid == 30) break;
             }
             Log.d("UDP", "S: Done");
 

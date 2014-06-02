@@ -47,10 +47,10 @@ public class TelemetryApp extends Application {
     }
 
     // Setters
-    public void setJSx(double value) {
+    public void setJSx(int value) {
         JSx = value;
     }
-    public void setJSy(double value) {
+    public void setJSy(int value) {
         JSy = value;
     }
     public void setVarNames(String[] newVarNames) {

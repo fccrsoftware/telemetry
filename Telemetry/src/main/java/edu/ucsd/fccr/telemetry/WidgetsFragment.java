@@ -19,6 +19,9 @@ public class WidgetsFragment extends Fragment {
     //
 
 
+    TelemetryApp telemetryApp;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_widgets, container, false);
@@ -34,6 +37,8 @@ public class WidgetsFragment extends Fragment {
         joystick = (JoystickView) v.findViewById(R.id.joystickView);
         joystick.setOnJostickMovedListener(_listener);
         joystick.setYAxisInverted(false);
+
+        telemetryApp = ((TelemetryApp) getActivity().getApplication());
 
 
         return v;
@@ -61,18 +66,24 @@ public class WidgetsFragment extends Fragment {
             //       - r returned [0,10]
             //       - theta returned [-pi,pi]
 
-            ((TelemetryApp) getActivity().getApplication()).setJSx((double)pan);
-            ((TelemetryApp) getActivity().getApplication()).setJSy((double)tilt);
-            double X = ((TelemetryApp) getActivity().getApplication()).getJSx();
-            double Y = ((TelemetryApp) getActivity().getApplication()).getJSy();
-            double R = ((TelemetryApp) getActivity().getApplication()).getJSr();
-            double Theta = ((TelemetryApp) getActivity().getApplication()).getJStheta();
+            telemetryApp.setJSx(pan);
+            telemetryApp.setJSy(tilt);
+            double X = telemetryApp.getJSx();
+            double Y = telemetryApp.getJSy();
+            double R = telemetryApp.getJSr();
+            double Theta = telemetryApp.getJStheta();
 
             DecimalFormat dec = new DecimalFormat("#.###");
             txtX.setText(dec.format(X));
             txtY.setText(dec.format(Y));
             txtR.setText(dec.format(R));
             txtTheta.setText(dec.format(Theta));
+
+            // Send the updates to robot
+            Client client = new Client();
+            client.chan1 = (short)tilt;
+            client.chan2 = (short)pan;
+            new Thread(client).start();
         }
         @Override
         public void OnReleased() {

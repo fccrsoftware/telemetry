@@ -64,6 +64,7 @@ public class Server implements Runnable {
 
                 Log.d("UDP", "S: Received - " + rxPacket.unpack() + " from - " + packet.getAddress());
                 if (rxPacket.unpack().msgid == 30) break;
+                if (rxPacket.unpack().msgid == 0) break;
             }
             Log.d("UDP", "S: Done");
 

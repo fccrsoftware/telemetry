@@ -9,24 +9,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidplot.Plot;
+import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.*;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Observable;
+import java.util.Observer;
 
 public class WidgetsFragment extends Fragment {
 
     // for joystick
     TextView txtX, txtY, txtR, txtTheta;
     JoystickView joystick;
-    //
 
     // for xy plot
     private XYPlot bigPlot;
-    //
-
+    private Number[] tiltNumbers = {0};
+    private Number[] panNumbers = {0};
+    private SimpleXYSeries series1;
+    private SimpleXYSeries series2;
+    private static final int HISTORY_SIZE = 200;
 
     TelemetryApp telemetryApp;
 
@@ -53,17 +60,15 @@ public class WidgetsFragment extends Fragment {
 
         // for xy plot
         bigPlot = (XYPlot) v.findViewById(R.id.mySimpleXYPlot);
-        Number[] series1Numbers = {1,2,3,6,15,40,120};
-        Number[] series2Numbers = {5,4,3,4,1,9,7};
-        XYSeries series1 = new SimpleXYSeries(
-                Arrays.asList(series1Numbers),
+        series1 = new SimpleXYSeries(
+                Arrays.asList(tiltNumbers),
                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
-                "Series 1"
+                "Tilt"
         );
-        XYSeries series2 = new SimpleXYSeries(
-                Arrays.asList(series2Numbers),
+        series2 = new SimpleXYSeries(
+                Arrays.asList(panNumbers),
                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
-                "Series 2"
+                "Pan"
         );
 
         // format series 1, plot
@@ -83,9 +88,6 @@ public class WidgetsFragment extends Fragment {
                 R.layout.line_point_formatter_with_plf2
         );
         bigPlot.addSeries(series2, series2Format);
-        //
-
-
 
 
 
@@ -132,6 +134,23 @@ public class WidgetsFragment extends Fragment {
             client.chan1 = (short)tilt;
             client.chan2 = (short)pan;
             new Thread(client).start();
+
+
+            //Update the plot
+            // update instantaneous data:
+
+            // get rid the oldest sample in history:
+            if (series1.size() > HISTORY_SIZE) {
+                series1.removeFirst();
+                series2.removeFirst();
+            }
+
+            // add the latest history sample:
+            series1.addLast(null, tilt);
+            series2.addLast(null, pan);
+
+            // redraw the Plots:
+            bigPlot.redraw();
         }
         @Override
         public void OnReleased() {
@@ -141,11 +160,11 @@ public class WidgetsFragment extends Fragment {
             txtTheta.setText("released");
         }
         public void OnReturnedToCenter() {
-            txtX.setText("stopped");
-            txtY.setText("stopped");
-            txtR.setText("stopped");
-            txtTheta.setText("stopped");
+            txtX.setText("");
+            txtY.setText("");
+            txtR.setText("");
+            txtTheta.setText("");
         }
     };
-    //
+
 }

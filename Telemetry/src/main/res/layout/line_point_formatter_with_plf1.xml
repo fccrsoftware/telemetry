@@ -2,7 +2,7 @@
 
 <config
     linePaint.strokeWidth="3dp"
-    linePaint.color="#FF3300"
-    vertexPaint.color="#FF0000"
-    fillPaint.color="#000000"
+    linePaint.color="#00FF33"
+    vertexPaint.color="#00FF00"
+    fillPaint.color="#00000000"
     pointLabelFormatter.textPaint.color="#FFFFFF" />

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.MAVLink.Messages.MAVLinkPacket;
 import com.androidplot.Plot;
 import com.androidplot.util.PlotStatistics;
 import com.androidplot.xy.SimpleXYSeries;
@@ -29,10 +30,12 @@ public class WidgetsFragment extends Fragment {
 
     // for xy plot
     private XYPlot bigPlot;
-    private Number[] tiltNumbers = {0};
-    private Number[] panNumbers = {0};
+    private Number[] rollNumbers = {0};
+    private Number[] pitchNumbers = {0};
+    private Number[] yawNumbers = {0};
     private SimpleXYSeries series1;
     private SimpleXYSeries series2;
+    private SimpleXYSeries series3;
     private static final int HISTORY_SIZE = 200;
 
     TelemetryApp telemetryApp;
@@ -61,14 +64,20 @@ public class WidgetsFragment extends Fragment {
         // for xy plot
         bigPlot = (XYPlot) v.findViewById(R.id.mySimpleXYPlot);
         series1 = new SimpleXYSeries(
-                Arrays.asList(tiltNumbers),
+                Arrays.asList(rollNumbers),
                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
-                "Tilt"
+                "Roll"
         );
         series2 = new SimpleXYSeries(
-                Arrays.asList(panNumbers),
+                Arrays.asList(pitchNumbers),
                 SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
-                "Pan"
+                "Pitch"
+        );
+
+        series3 = new SimpleXYSeries(
+                Arrays.asList(yawNumbers),
+                SimpleXYSeries.ArrayFormat.Y_VALS_ONLY,
+                "Yaw"
         );
 
         // format series 1, plot
@@ -89,6 +98,15 @@ public class WidgetsFragment extends Fragment {
         );
         bigPlot.addSeries(series2, series2Format);
 
+        // format series 3, plot
+        LineAndPointFormatter series3Format = new LineAndPointFormatter();
+        series3Format.setPointLabelFormatter(new PointLabelFormatter());
+        series3Format.configure(
+                getActivity().getApplicationContext(),
+                R.layout.line_point_formatter_with_plf3
+        );
+        bigPlot.addSeries(series3, series3Format);
+
 
 
         return v;
@@ -103,6 +121,26 @@ public class WidgetsFragment extends Fragment {
         f.setArguments(b);
 
         return f;
+    }
+
+    public void updateGraph(float roll, float pitch, float yaw){
+        //Update the plot
+        // update instantaneous data:
+
+        // get rid the oldest sample in history:
+        if (series1.size() > HISTORY_SIZE) {
+            series1.removeFirst();
+            series2.removeFirst();
+            series3.removeFirst();
+        }
+
+        // add the latest history sample:
+        series1.addLast(null, roll);
+        series2.addLast(null, pitch);
+        series3.addLast(null, yaw);
+
+        // redraw the Plots:
+        bigPlot.redraw();
     }
 
 
@@ -134,23 +172,6 @@ public class WidgetsFragment extends Fragment {
             client.chan1 = (short)tilt;
             client.chan2 = (short)pan;
             new Thread(client).start();
-
-
-            //Update the plot
-            // update instantaneous data:
-
-            // get rid the oldest sample in history:
-            if (series1.size() > HISTORY_SIZE) {
-                series1.removeFirst();
-                series2.removeFirst();
-            }
-
-            // add the latest history sample:
-            series1.addLast(null, tilt);
-            series2.addLast(null, pan);
-
-            // redraw the Plots:
-            bigPlot.redraw();
         }
         @Override
         public void OnReleased() {

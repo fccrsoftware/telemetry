@@ -11,6 +11,8 @@ import android.content.Context;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +31,11 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.MAVLink.Messages.MAVLinkMessage;
+import com.MAVLink.Messages.MAVLinkPacket;
+import com.MAVLink.Messages.ardupilotmega.*;
+import com.MAVLink.Parser;
+
 public class MainActivity extends ActionBarActivity
 {
     private String TAG = "MainActivity";
@@ -37,12 +44,47 @@ public class MainActivity extends ActionBarActivity
     static WifiAP wifiAp;
     private WifiManager wifi;
 
+    TelemetryApp telemetryApp;
+    SSHFragment sshFragment;
+    WidgetsFragment widgetsFragment;
+
     SectionsPagerAdapter mSectionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
     ViewPager mViewPager;
+
+    Handler serverHandler = new Handler(){
+
+        @Override
+        public void handleMessage (Message msg) {
+            //msg recieved
+            Bundle bundle = msg.getData();
+            byte[] receivedData = bundle.getByteArray("data");
+                       /* Parser Constructor*/
+            Parser parser = new Parser();
+                        /* Receive the UDP-Packet */
+            MAVLinkPacket rxPacket = null;
+
+            for (int currentByte : receivedData) {
+                currentByte = currentByte & 0xff; // Convert currentByte into unsigned char
+                rxPacket = parser.mavlink_parse_char(currentByte);
+                // Received a mavlinkpacket
+                if (rxPacket != null){
+                    MAVLinkMessage packet = rxPacket.unpack();
+                    //read the packet and update the graph
+                    if (packet.msgid == msg_attitude.MAVLINK_MSG_ID_ATTITUDE) {
+                        msg_attitude rx = (msg_attitude) packet;
+                        widgetsFragment.updateGraph(rx.roll, rx.pitch, rx.yaw);
+                    }
+                    break;
+                }
+                // Log.d("UDP", ""+currentByte);
+            }
+
+        }
+    };
 
 
     @Override
@@ -60,6 +102,8 @@ public class MainActivity extends ActionBarActivity
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setPageMargin(
                 getResources().getDimensionPixelOffset(R.dimen.viewpager_margin));
+
+        telemetryApp = (TelemetryApp) getApplication();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON | WindowManager.LayoutParams.FLAG_DIM_BEHIND);
     }
@@ -150,10 +194,13 @@ public class MainActivity extends ActionBarActivity
     public void setupUDP() {
         /* Kickoff the Server, it will
          * be 'listening' for one client packet */
-        SSHFragment sshFragment = (SSHFragment)getSupportFragmentManager().getFragments().get(0);
+
+        sshFragment = (SSHFragment)getSupportFragmentManager().getFragments().get(0);
+        widgetsFragment = (WidgetsFragment)getSupportFragmentManager().getFragments().get(3);
+
         sshFragment.updateLog("Listening on port 14550");
 
-         new Thread(new Server()).start();
+         new Thread(new Server(serverHandler)).start();
         /* GIve the Server some time for startup */
         try {
             Thread.sleep(500);
@@ -165,5 +212,7 @@ public class MainActivity extends ActionBarActivity
         new Thread(new Client()).start();
 
     }
+
+
 
 }

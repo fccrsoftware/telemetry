@@ -5,6 +5,9 @@ package edu.ucsd.fccr.telemetry;
  */
 
 import android.app.Fragment;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 
 import java.net.DatagramPacket;
@@ -23,13 +26,17 @@ public class Server implements Runnable {
     public static final int SERVERPORT = 14550;
     public DatagramSocket socket = null;
 
+    private Handler handler;
+    public Server(Handler handler){
+        this.handler = handler;
+    }
+
     @Override
     public void run() {
         try {
                         /* Retrieve the ServerName */
             InetAddress serverAddr = InetAddress.getByName(SERVERIP);
 
-            Log.d("UDP", "S: Connecting...");
                         /* Create UDP-Socket */
             socket = new DatagramSocket(SERVERPORT, serverAddr);
 
@@ -41,7 +48,6 @@ public class Server implements Runnable {
                          * contain the data we want to receive */
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
-            Log.d("UDP", "S: Receiving...");
             boolean run = true;
             while (run) {
                 socket.receive(packet);
@@ -62,9 +68,16 @@ public class Server implements Runnable {
                     // Log.d("UDP", ""+currentByte);
                 }
 
+                //Send the packet data to the main UI
+                Message msg = handler.obtainMessage();
+                Bundle bundle = new Bundle();
+                bundle.putByteArray("data", receivedData);
+                msg.setData(bundle);
+                handler.sendMessage(msg);
+
                 Log.d("UDP", "S: Received - " + rxPacket.unpack() + " from - " + packet.getAddress());
-                if (rxPacket.unpack().msgid == 30) break;
-                if (rxPacket.unpack().msgid == 0) break;
+//                if (rxPacket.unpack().msgid == 30) break;
+//                if (rxPacket.unpack().msgid == 0) break;
             }
             Log.d("UDP", "S: Done");
 

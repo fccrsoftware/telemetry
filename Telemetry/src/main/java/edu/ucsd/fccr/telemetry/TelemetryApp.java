@@ -10,6 +10,8 @@ package edu.ucsd.fccr.telemetry;
 
 import android.app.Application;
 
+import com.MAVLink.Messages.MAVLinkPacket;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -34,6 +36,9 @@ public class TelemetryApp extends Application {
     public double JSy;
     public double JSr;
     public double JStheta;
+
+    // Mavlink data
+    public MAVLinkPacket currentPacket;
 
     public String currentLog = "";
 
@@ -70,6 +75,9 @@ public class TelemetryApp extends Application {
     }
     public void setVarMaxs(String[] newVarMaxs) {
         VarMaxs = newVarMaxs;
+    }
+    public void setNewPacket(MAVLinkPacket packet) {
+        currentPacket = packet;
     }
 
     // Getters
@@ -113,6 +121,9 @@ public class TelemetryApp extends Application {
     public double getJStheta() {
         JStheta = Math.atan2(JSx,JSy);
         return JStheta;
+    }
+    public MAVLinkPacket getCurrentPacket() {
+        return currentPacket;
     }
 
     public String log (String msg) {

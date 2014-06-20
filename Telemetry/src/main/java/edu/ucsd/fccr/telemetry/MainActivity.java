@@ -8,6 +8,7 @@ import java.util.Map;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
@@ -55,12 +56,23 @@ public class MainActivity extends ActionBarActivity
      */
     ViewPager mViewPager;
 
+
     Handler serverHandler = new Handler(){
 
         @Override
         public void handleMessage (Message msg) {
             //msg recieved
             Bundle bundle = msg.getData();
+//            Context mContext = getApplicationContext();
+//            SharedPreferences prefs = mContext.getSharedPreferences("pref", Context.MODE_PRIVATE);
+//
+//
+//            String clientIp = prefs.getString("ip", null);
+//            if (clientIp != bundle.getString("ip")){
+//                SharedPreferences.Editor editor = prefs.edit();
+//                editor.putString("ip", bundle.getString("ip"));
+//                editor.commit();
+//            }
             byte[] receivedData = bundle.getByteArray("data");
                        /* Parser Constructor*/
             Parser parser = new Parser();

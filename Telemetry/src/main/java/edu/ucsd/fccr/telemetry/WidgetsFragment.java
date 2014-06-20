@@ -1,7 +1,9 @@
 package edu.ucsd.fccr.telemetry;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,6 +42,8 @@ public class WidgetsFragment extends Fragment {
 
     TelemetryApp telemetryApp;
 
+    String clientIp;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +54,9 @@ public class WidgetsFragment extends Fragment {
 
         telemetryApp = ((TelemetryApp) getActivity().getApplication());
 
+        SharedPreferences prefs = telemetryApp.getSharedPreferences("pref", Context.MODE_PRIVATE);
 
+        clientIp = prefs.getString("ip", null);
 
         // for joystick
         txtX = (TextView) v.findViewById(R.id.TextViewX);
@@ -171,6 +177,7 @@ public class WidgetsFragment extends Fragment {
             Client client = new Client();
             client.chan1 = (short)tilt;
             client.chan2 = (short)pan;
+            client.deviceIp = "192.168.43.74";
             new Thread(client).start();
         }
         @Override

@@ -5,9 +5,11 @@ package edu.ucsd.fccr.telemetry;
  */
 
 import android.app.Fragment;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.net.DatagramPacket;
@@ -21,7 +23,7 @@ import com.MAVLink.Parser;
 
 public class Server implements Runnable {
 
-    public static final String CLIENTIP = "192.168.43.88";
+    public static String CLIENTIP = "192.168.43.74";
     public static final String SERVERIP = "192.168.43.1";
     public static final int SERVERPORT = 14550;
     public DatagramSocket socket = null;
@@ -47,11 +49,11 @@ public class Server implements Runnable {
                         /* Prepare a UDP-Packet that can
                          * contain the data we want to receive */
             DatagramPacket packet = new DatagramPacket(buf, buf.length);
-
+            String clientip;
             boolean run = true;
             while (run) {
                 socket.receive(packet);
-//                CLIENTIP = packet.getAddress().getHostName();
+                clientip = packet.getAddress().getHostName();
                         /* Access the data in the packet */
                 byte[] receivedData = packet.getData();
 
@@ -72,6 +74,7 @@ public class Server implements Runnable {
                 Message msg = handler.obtainMessage();
                 Bundle bundle = new Bundle();
                 bundle.putByteArray("data", receivedData);
+                bundle.putString("ip", clientip);
                 msg.setData(bundle);
                 handler.sendMessage(msg);
 

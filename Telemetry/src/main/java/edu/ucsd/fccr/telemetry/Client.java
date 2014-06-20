@@ -24,13 +24,15 @@ public class Client implements Runnable {
     /* Pan -10000 <-> 10000*/
     public short chan2;
 
+    public String deviceIp;
+
     @Override
     public void run() {
         try {
             // Retrieve the ServerName
             InetAddress clientAddr;
 
-            clientAddr = InetAddress.getByName(Server.CLIENTIP);
+            clientAddr = InetAddress.getByName(deviceIp);
 
             Log.d("UDP", "C: Connecting...");
             /* Create new UDP-Socket */
@@ -55,7 +57,7 @@ public class Client implements Runnable {
             Log.d("UDP", "C: Sent.");
             Log.d("UDP", "C: Done.");
         } catch (Exception e) {
-            Log.e("UDP", "C: Error", e);
+            Log.e("UDP", "C: Error Sending", e);
         }
     }
 }
